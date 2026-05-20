@@ -38,14 +38,6 @@ const PageContainer = styled.div<{ $isZooming?: boolean }>`
         gap: 0;
         padding: 1rem;
     }
-
-    @media (max-height: 760px) {
-        overflow-y: auto;
-        justify-content: center;
-        gap: 1rem;
-        padding-top: 5rem;
-        padding-bottom: 1.5rem;
-    }
 `;
 
 const NotebookBg = styled.div`
@@ -296,14 +288,6 @@ const MiddleSectionWrapper = styled.div`
     @media (max-width: 768px) {
         width: min(calc(100% - 2rem), 420px);
     }
-
-    @media (max-height: 760px) {
-        position: relative;
-        top: auto;
-        left: auto;
-        transform: none;
-        max-width: 100%;
-    }
 `;
 
 const MiddleSection = styled(motion.div)`
@@ -332,10 +316,6 @@ const BottomSection = styled.div`
         left: 50%;
         transform: translateX(-50%);
         width: min(calc(100% - 2rem), 420px);
-        padding-bottom: 0;
-    }
-
-    @media (max-height: 760px) {
         padding-bottom: 0;
     }
 `;
