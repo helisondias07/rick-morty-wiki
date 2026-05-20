@@ -143,9 +143,7 @@ function ThemedApp() {
         const media = window.matchMedia("(prefers-reduced-motion: reduce)");
 
         const updateAmbientMode = () => {
-            setCanShowAmbientDecorations(
-                window.innerWidth >= 1024 && !media.matches,
-            );
+            setCanShowAmbientDecorations(!media.matches);
         };
 
         updateAmbientMode();

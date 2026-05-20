@@ -172,6 +172,10 @@ const Title = styled(motion.h1)`
     white-space: normal;
     text-wrap: balance;
     line-height: 0.95;
+    /* Sincroniza a transicao de cor/sombra com a troca de tema */
+    transition:
+        color var(--theme-transition-duration, 0.8s) ease,
+        text-shadow var(--theme-transition-duration, 0.8s) ease;
 
     /* Estilização diferenciada entre modo escuro (neon) e claro (cartoon 2D de quadrinhos) */
     ${({ theme }) =>
@@ -333,6 +337,13 @@ const CtaButton = styled(motion.button)`
     text-transform: uppercase;
     position: relative;
     overflow: hidden;
+    /* Sincroniza transicao visual com a troca de tema */
+    transition:
+        background var(--theme-transition-duration, 0.8s) ease,
+        color var(--theme-transition-duration, 0.8s) ease,
+        border-color var(--theme-transition-duration, 0.8s) ease,
+        box-shadow var(--theme-transition-duration, 0.8s) ease,
+        text-shadow var(--theme-transition-duration, 0.8s) ease;
 
     ${({ theme }) =>
         theme.background === "#0d0d14"
