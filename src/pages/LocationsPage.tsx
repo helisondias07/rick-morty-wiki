@@ -465,9 +465,15 @@ const CharGrid = styled.div`
     margin-top: 1rem;
 
     @media (max-width: 768px) {
-        grid-template-columns: repeat(auto-fill, minmax(68px, 1fr));
-        gap: 0.6rem;
-        margin-top: 0.8rem;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 0.5rem;
+        margin-top: 0.6rem;
+    }
+
+    @media (max-width: 480px) {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 0.4rem;
+        margin-top: 0.5rem;
     }
 `;
 
@@ -491,8 +497,13 @@ const CharImg = styled.img`
     border: 2px solid rgba(151, 206, 76, 0.2);
 
     @media (max-width: 768px) {
-        width: 50px;
-        height: 50px;
+        width: 44px;
+        height: 44px;
+    }
+
+    @media (max-width: 480px) {
+        width: 40px;
+        height: 40px;
     }
 `;
 

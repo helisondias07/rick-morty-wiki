@@ -13,6 +13,8 @@ const Overlay = styled(motion.div)`
     padding: clamp(0.75rem, 2vw, 1.25rem);
     overflow: hidden;
     overscroll-behavior: contain;
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
 
     @media (max-width: 768px) {
         align-items: flex-start;
@@ -25,6 +27,7 @@ const ModalBox = styled(motion.div)`
     border-radius: 20px;
     border: 1px solid ${({ theme }) => theme.border};
     width: min(800px, calc(100vw - 2rem));
+    max-height: calc(100vh - 2rem);
     max-height: calc(100dvh - 2rem);
     overflow: hidden;
     position: relative;
@@ -35,19 +38,22 @@ const ModalBox = styled(motion.div)`
 
     @media (max-width: 1024px) {
         width: min(92vw, 800px);
+        max-height: calc(100vh - 2rem);
         max-height: calc(100dvh - 2rem);
         border-radius: 18px;
     }
 
     @media (max-width: 768px) {
         width: min(94vw, 32rem);
+        max-height: calc(100vh - 1rem);
         max-height: calc(100dvh - 1rem);
         border-radius: 16px;
     }
 
     @media (max-width: 480px) {
         width: min(94vw, 100vw);
-        max-height: calc(100dvh - 1rem);
+        max-height: calc(100vh - 0.5rem);
+        max-height: calc(100dvh - 0.5rem);
         border-radius: 14px;
     }
 `;

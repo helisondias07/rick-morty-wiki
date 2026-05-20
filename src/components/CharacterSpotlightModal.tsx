@@ -18,7 +18,7 @@ const Layout = styled.div`
 
     @media (max-width: 768px) {
         grid-template-columns: 1fr;
-        gap: 0.9rem;
+        gap: 0.6rem;
     }
 `;
 
@@ -29,9 +29,13 @@ const PortraitCard = styled.div`
     overflow: hidden;
 
     @media (max-width: 768px) {
-        width: min(100%, 240px);
+        width: min(100%, 180px);
         margin: 0 auto;
-        border-radius: 16px;
+        border-radius: 14px;
+    }
+
+    @media (max-width: 480px) {
+        width: min(100%, 140px);
     }
 `;
 
@@ -114,7 +118,7 @@ const DetailPanel = styled.div`
     gap: 1rem;
 
     @media (max-width: 768px) {
-        gap: 0.8rem;
+        gap: 0.6rem;
     }
 `;
 
@@ -131,11 +135,11 @@ const Name = styled.h3`
     line-height: 1.08;
 
     @media (max-width: 768px) {
-        font-size: 1.85rem;
+        font-size: 1.45rem;
     }
 
     @media (max-width: 480px) {
-        font-size: 1.6rem;
+        font-size: 1.2rem;
     }
 `;
 
@@ -155,11 +159,12 @@ const StatsGrid = styled.div`
     gap: 0.75rem;
 
     @media (max-width: 768px) {
-        gap: 0.6rem;
+        gap: 0.5rem;
     }
 
     @media (max-width: 520px) {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.4rem;
     }
 `;
 
@@ -170,8 +175,8 @@ const StatCard = styled.div`
     padding: 0.8rem 0.9rem;
 
     @media (max-width: 768px) {
-        border-radius: 12px;
-        padding: 0.7rem 0.8rem;
+        border-radius: 10px;
+        padding: 0.5rem 0.6rem;
     }
 `;
 
@@ -207,6 +212,11 @@ const FlavorText = styled.p`
 
     @media (max-width: 768px) {
         font-size: 0.86rem;
+    }
+
+    /* Esconde em telas pequenas para evitar scroll no modal */
+    @media (max-width: 480px) {
+        display: none;
     }
 `;
 

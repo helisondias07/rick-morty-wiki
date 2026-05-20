@@ -68,10 +68,9 @@ const Name = styled.h3`
     font-weight: 700;
     color: ${({ theme }) => theme.text};
     line-height: 1.3;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
+    white-space: nowrap;
     overflow: hidden;
+    text-overflow: ellipsis;
 
     @media (max-width: 480px) {
         font-size: 0.86rem;

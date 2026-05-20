@@ -234,8 +234,15 @@ const EpisodeSummaryText = styled.p`
     font-size: 0.95rem;
 
     @media (max-width: 768px) {
-        font-size: 0.88rem;
-        line-height: 1.55;
+        font-size: 0.82rem;
+        line-height: 1.45;
+    }
+
+    @media (max-width: 480px) {
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
     }
 `;
 
@@ -258,14 +265,15 @@ const CharGrid = styled.div`
     margin-top: 1rem;
 
     @media (max-width: 768px) {
-        grid-template-columns: repeat(auto-fill, minmax(72px, 1fr));
-        gap: 0.6rem;
-        margin-top: 0.8rem;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 0.5rem;
+        margin-top: 0.6rem;
     }
 
     @media (max-width: 480px) {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 0.55rem;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 0.4rem;
+        margin-top: 0.5rem;
     }
 `;
 
@@ -289,8 +297,13 @@ const CharImg = styled.img`
     border: 2px solid rgba(151, 206, 76, 0.2);
 
     @media (max-width: 768px) {
-        width: 56px;
-        height: 56px;
+        width: 48px;
+        height: 48px;
+    }
+
+    @media (max-width: 480px) {
+        width: 44px;
+        height: 44px;
     }
 `;
 
