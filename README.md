@@ -15,7 +15,7 @@ A aplicação permite visualizar os personagens em um painel interativo, com rol
 
 Um dos diferenciais do projeto é a página dedicada ao **Esquadrão**. Em vez de uma simples lista de personagens favoritados, foi criada uma seção inteira onde é possível comparar os atributos dos recrutas, verificar a chance de sobrevivência da equipe e simular missões aleatórias com uma análise divertida do próprio Rick Sanchez. Além disso, todo o sistema suporta troca de idioma (inglês/português) e conta com alternância dinâmica entre modo escuro e claro, salvando a sua preferência.
 
-A preocupação com o usuário guiou o desenvolvimento de estruturas acessíveis. Ao abrir modais, a navegação pelo teclado (Tab) fica contida ali dentro para que a pessoa não se perca no site. Mensagens de erro e telas de carregamento contam com configurações específicas no código para que os leitores de tela entendam exatamente o que está acontecendo.
+Este projeto foi desenvolvido majoritariamente à mão, durante uma imersão de 20 horas seguidas de trabalho. O uso de Inteligência Artificial foi limitado apenas como ferramenta de suporte pontual, auxiliando na matemática das animações gerais da interface e na estruturação inicial da suíte de testes.
 
 ## Arquitetura e Tecnologias
 
