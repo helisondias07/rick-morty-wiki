@@ -12,9 +12,9 @@ import { MoonIcon, SunIcon } from "../../components/ThemeToggleIcons";
 const PageContainer = styled.div<{ $isZooming?: boolean }>`
     background-color: transparent;
     color: ${({ theme }) => theme.text};
-    min-height: 100vh;
-    min-height: 100dvh;
-    overflow: clip;
+    height: 100vh;
+    height: 100dvh;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -34,7 +34,6 @@ const PageContainer = styled.div<{ $isZooming?: boolean }>`
     }
 
     @media (max-width: 768px) {
-        overflow: hidden;
         justify-content: center;
         gap: 0;
         padding: 1rem;
@@ -395,9 +394,15 @@ export function LandingPage() {
     useEffect(() => {
         document.title = "Rick & Morty Wiki | Home";
 
+        // Trava scroll no body E no html (compatível com Samsung Internet)
         document.body.classList.add("is-landing");
+        document.documentElement.style.overflow = "hidden";
+        document.documentElement.style.height = "100%";
+
         return () => {
             document.body.classList.remove("is-landing");
+            document.documentElement.style.overflow = "";
+            document.documentElement.style.height = "";
         };
     }, []);
 

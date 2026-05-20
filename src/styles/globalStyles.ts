@@ -18,6 +18,12 @@ export const GlobalStyle = createGlobalStyle`
 
   html {
     scroll-behavior: smooth;
+
+    /* Trava o scroll no html tambem quando na landing page */
+    &:has(body.is-landing) {
+      overflow: hidden !important;
+      height: 100% !important;
+    }
   }
 
   body {
@@ -47,9 +53,14 @@ export const GlobalStyle = createGlobalStyle`
       background-image: none;
     `}
 
+    /* Trava scroll quando na landing page */
     &.is-landing {
       background-color: #0d0d14 !important;
       background-image: none !important;
+      overflow: hidden !important;
+      height: 100% !important;
+      position: fixed !important;
+      width: 100% !important;
     }
 
     /* Estrelas 1 */
