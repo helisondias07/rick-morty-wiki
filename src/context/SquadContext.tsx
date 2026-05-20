@@ -913,26 +913,27 @@ export function SquadProvider({ children }: { children: ReactNode }) {
         localStorage.setItem("rm-squad", JSON.stringify(squad));
     }, [squad]);
 
-    const addToSquad = useCallback((character: Character) => {
-        setSquad((prev) => {
-            if (prev.length >= MAX_SQUAD) return prev;
-            if (prev.find((c) => c.id === character.id)) return prev;
-            const interaction = getAddInteraction(prev, character);
+    const addToSquad = useCallback(
+        (character: Character) => {
+            if (squad.length >= MAX_SQUAD) return;
+            if (squad.find((c) => c.id === character.id)) return;
+            const interaction = getAddInteraction(squad, character);
             if (interaction) dispatchInteraction(interaction);
-            return [...prev, character];
-        });
-    }, []);
+            setSquad((prev) => [...prev, character]);
+        },
+        [squad]
+    );
 
-    const removeFromSquad = useCallback((id: number) => {
-        setSquad((prev) => {
-            const removed = prev.find((c) => c.id === id);
-            const next = prev.filter((c) => c.id !== id);
+    const removeFromSquad = useCallback(
+        (id: number) => {
+            const removed = squad.find((c) => c.id === id);
+            const next = squad.filter((c) => c.id !== id);
             const interaction = getRemoveInteraction(removed, next);
             if (interaction) dispatchInteraction(interaction);
-
-            return next;
-        });
-    }, []);
+            setSquad(next);
+        },
+        [squad]
+    );
 
     const clearSquad = useCallback(() => {
         setSquad([]);
