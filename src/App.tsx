@@ -106,6 +106,11 @@ const AmbientNotebookLayer = styled.div<{ $repeat?: boolean }>`
     z-index: 0;
     pointer-events: none;
     overflow: ${({ $repeat }) => ($repeat ? "visible" : "hidden")};
+
+    /* Oculta as notas de texto no mobile para evitar sobreposição com títulos de página */
+    @media (max-width: 768px) {
+        display: none;
+    }
 `;
 
 function ThemedApp() {
