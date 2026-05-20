@@ -64,7 +64,7 @@ const LogoText = styled.span`
     }
 
     @media (max-width: 960px) {
-        display: none;
+        font-size: 1rem;
     }
 `;
 
@@ -129,6 +129,7 @@ const SlideToggle = styled.button<{ $width?: string }>`
         theme.background === "#0d0d14"
             ? "0 4px 12px rgba(0, 0, 0, 0.2)"
             : "2px 2px 0px #000000"};
+    -webkit-backdrop-filter: blur(4px);
     backdrop-filter: blur(4px);
     -webkit-tap-highlight-color: transparent;
 `;
@@ -194,6 +195,7 @@ const MobileDropdown = styled.div<{ $open: boolean }>`
     top: 64px;
     left: 0;
     width: 100%;
+    max-height: calc(100vh - 64px);
     max-height: calc(100dvh - 64px);
     overflow-y: auto;
     padding: 1.25rem 1.5rem max(1.25rem, env(safe-area-inset-bottom));
