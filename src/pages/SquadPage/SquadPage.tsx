@@ -19,6 +19,7 @@ import {
 import { translateSpecies } from "../../utils/translate";
 
 const Page = styled(motion.main)`
+    min-height: calc(100vh - 64px);
     min-height: calc(100dvh - 64px);
     width: 100%;
     max-width: 1160px;
@@ -32,6 +33,7 @@ const Page = styled(motion.main)`
     z-index: 1;
 
     @media (max-width: 768px) {
+        min-height: calc(100vh - 64px);
         min-height: calc(100dvh - 64px);
         padding: 1rem;
     }
@@ -737,6 +739,7 @@ const ModalOverlay = styled(motion.div)`
     position: fixed;
     inset: 0;
     background: ${({ theme }) => theme.overlayBg};
+    -webkit-backdrop-filter: blur(8px);
     backdrop-filter: blur(8px);
     z-index: 500;
     display: grid;
@@ -746,6 +749,7 @@ const ModalOverlay = styled(motion.div)`
 
 const MissionModal = styled(motion.div)`
     width: min(680px, calc(100vw - 2rem));
+    max-height: calc(100vh - 2rem);
     max-height: calc(100dvh - 2rem);
     overflow-y: auto;
     background: ${({ theme }) => theme.surfaceCard};
@@ -756,6 +760,7 @@ const MissionModal = styled(motion.div)`
 
     @media (max-width: 640px) {
         width: min(96vw, 100vw);
+        max-height: calc(100vh - 1rem);
         max-height: calc(100dvh - 1rem);
         padding: 1rem;
         border-radius: 16px;

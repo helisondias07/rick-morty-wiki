@@ -12,6 +12,7 @@ import { MoonIcon, SunIcon } from "../../components/ThemeToggleIcons";
 const PageContainer = styled.div<{ $isZooming?: boolean }>`
     background-color: transparent;
     color: ${({ theme }) => theme.text};
+    min-height: 100vh;
     min-height: 100dvh;
     overflow: clip;
     display: flex;
@@ -108,6 +109,7 @@ const SlideToggle = styled.button<{ $width?: string }>`
         theme.background === "#0d0d14"
             ? "0 4px 12px rgba(0, 0, 0, 0.2)"
             : "2px 2px 0px #000000"};
+    -webkit-backdrop-filter: blur(4px);
     backdrop-filter: blur(4px);
 `;
 
