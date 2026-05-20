@@ -1,5 +1,10 @@
 # Rick and Morty Wiki
 
+<div align="center">
+  <img src="./docs/dark-mode.png" alt="Dark Mode" width="48%" />
+  <img src="./docs/light-mode.png" alt="Light Mode" width="48%" />
+</div>
+
 Esta é uma aplicação front-end desenvolvida para o desafio técnico de Desenvolvedor Front-end Júnior. A ideia principal é explorar os recursos da API oficial de Rick and Morty, focando na listagem de personagens, episódios e localizações. O objetivo foi criar um projeto demonstrando qualidade de código, arquitetura bem definida e uma experiência de usuário fluida.
 
 **[Acesse a aplicação ao vivo aqui (Live Preview)](https://rick-morty-wiki-steel-delta.vercel.app/)**
@@ -15,7 +20,7 @@ A aplicação permite visualizar os personagens em um painel interativo, com rol
 
 Um dos diferenciais do projeto é a página dedicada ao **Esquadrão**. Em vez de uma simples lista de personagens favoritados, foi criada uma seção inteira onde é possível comparar os atributos dos recrutas, verificar a chance de sobrevivência da equipe e simular missões aleatórias com uma análise divertida do próprio Rick Sanchez. Além disso, todo o sistema suporta troca de idioma (inglês/português) e conta com alternância dinâmica entre modo escuro e claro, salvando a sua preferência.
 
-Este projeto foi desenvolvido majoritariamente à mão, durante uma imersão de 20 horas seguidas de trabalho. O uso de Inteligência Artificial foi limitado apenas como ferramenta de suporte pontual, auxiliando na matemática das animações gerais da interface e na estruturação inicial da suíte de testes.
+O desenvolvimento foi feito em uma sessão contínua de aproximadamente 20 horas, o que explica o histórico de commits condensado. O foco foi na entrega funcional completa dentro do prazo. O uso de Inteligência Artificial foi limitado apenas como ferramenta de suporte pontual para cálculos matemáticos de animações complexas e a estruturação inicial do *boilerplate* da suíte de testes.
 
 ## Arquitetura e Tecnologias
 
