@@ -13,6 +13,13 @@ export class RateLimitError extends Error {
   }
 }
 
+class InvalidApiResponseError extends Error {
+  constructor() {
+    super('A API retornou uma página HTML em vez de JSON. Verifique as rotas da Vercel.');
+    this.name = 'InvalidApiResponseError';
+  }
+}
+
 function isAbortError(error: unknown): boolean {
   return error instanceof DOMException && error.name === 'AbortError';
 }
@@ -90,6 +97,9 @@ export async function getCharacters(
     if (res.status === 429) throw new RateLimitError();
     throw new Error(`Failed to fetch characters: ${res.status}`);
   }
+  if (!res.headers.get('content-type')?.includes('application/json')) {
+    throw new InvalidApiResponseError();
+  }
   return res.json();
 }
 
@@ -105,6 +115,9 @@ export async function getCharactersByIds(
   const res = await fetchWithRetry(url, signal);
   if (res.status === 429) throw new RateLimitError();
   if (!res.ok) throw new Error(`Failed to fetch characters by ids: ${res.status}`);
+  if (!res.headers.get('content-type')?.includes('application/json')) {
+    throw new InvalidApiResponseError();
+  }
   const data = await res.json();
   return Array.isArray(data) ? data : [data];
 }

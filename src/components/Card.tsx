@@ -212,6 +212,11 @@ export const CharacterCard = React.memo(function CharacterCard({
     const isPreviewable = typeof onPreview === "function";
 
     React.useEffect(() => {
+        if (character.id <= 20) {
+            setShouldLoadImage(true);
+            return;
+        }
+
         if (typeof IntersectionObserver === "undefined") {
             setShouldLoadImage(true);
             return;
@@ -225,7 +230,7 @@ export const CharacterCard = React.memo(function CharacterCard({
             ([entry]) => {
                 if (entry.isIntersecting) {
                     if (timeoutId) return;
-                    const delay = (character.id % 10) * 120;
+                    const delay = (character.id % 5) * 60;
                     timeoutId = window.setTimeout(
                         () => {
                             setShouldLoadImage(true);
@@ -241,7 +246,7 @@ export const CharacterCard = React.memo(function CharacterCard({
                     timeoutId = undefined;
                 }
             },
-            { rootMargin: "120px" },
+            { rootMargin: "600px" },
         );
 
         observer.observe(node);
