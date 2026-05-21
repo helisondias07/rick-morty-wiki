@@ -101,7 +101,7 @@ const RouteFallback = styled.div`
 `;
 
 const AmbientNotebookLayer = styled.div`
-    position: fixed;
+    position: absolute;
     inset: 0;
     z-index: 0;
     pointer-events: none;
@@ -125,6 +125,7 @@ function ThemedApp() {
 
     const isLandingPage = location.pathname === "/";
     const isSquadPage = location.pathname === "/squad";
+    const isCharactersPage = location.pathname === "/characters";
 
     React.useEffect(() => {
         // Escuta o evento disparado pela LandingPage ao clicar em Atravessar Portal
@@ -163,7 +164,9 @@ function ThemedApp() {
             )}
             {mode !== "dark" && !isLandingPage && (
                 <AmbientNotebookLayer aria-hidden="true">
-                    <NotebookDecorations blockCount={1} />
+                    <NotebookDecorations
+                        blockCount={isCharactersPage ? 60 : 1}
+                    />
                 </AmbientNotebookLayer>
             )}
 

@@ -67,7 +67,7 @@ const Sentinel = styled.div`
     height: 1px;
 `;
 
-const MIN_PAGE_REQUEST_INTERVAL = 3500;
+const MIN_PAGE_REQUEST_INTERVAL = 2400;
 
 const ErrorMsg = styled.div.attrs({
     role: "alert",
@@ -224,6 +224,7 @@ export function CharactersPage() {
     const lastRequestStartedAtRef = useRef(0);
     const retryTimeoutRef = useRef<number | null>(null);
     const cooldownUntilRef = useRef(0);
+    const rateLimitRetryCountRef = useRef(0);
 
     // define o título dinâmico da página baseado no idioma
     useEffect(() => {
@@ -299,11 +300,17 @@ export function CharactersPage() {
                 setHasNext(data.info.next !== null);
                 setTotal(data.info.count);
                 setPage(pageNum);
+                rateLimitRetryCountRef.current = 0;
             } catch (err: unknown) {
                 if (err instanceof DOMException && err.name === "AbortError")
                     return;
                 if (err instanceof RateLimitError) {
-                    const retryAfterMs = err.retryAfterMs;
+                    const retryAfterMs = Math.min(
+                        45000,
+                        err.retryAfterMs *
+                            2 ** Math.min(rateLimitRetryCountRef.current, 2),
+                    );
+                    rateLimitRetryCountRef.current += 1;
                     cooldownUntilRef.current = Date.now() + retryAfterMs;
                     setError(null);
                     setHasNext(true);
@@ -337,6 +344,7 @@ export function CharactersPage() {
         }
         cooldownUntilRef.current = 0;
         lastRequestStartedAtRef.current = 0;
+        rateLimitRetryCountRef.current = 0;
         setPage(1);
         setHasNext(true); // Reseta para tentar buscar novamente com novos filtros
         loadPage(1, filters, true);
