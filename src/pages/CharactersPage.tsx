@@ -8,7 +8,7 @@ import React, {
 import { motion } from "framer-motion";
 import styled from "styled-components";
 import { Character, CharacterFilters } from "../types";
-import { getCharacters } from "../services/characterService";
+import { getCharacters, RateLimitError } from "../services/characterService";
 import { CharacterCard } from "../components/Card";
 import { CharacterSpotlightModal } from "../components/CharacterSpotlightModal";
 import { FilterBar } from "../components/FilterBar";
@@ -66,6 +66,8 @@ const EmptyStateContainer = styled.div`
 const Sentinel = styled.div`
     height: 1px;
 `;
+
+const MIN_PAGE_REQUEST_INTERVAL = 3500;
 
 const ErrorMsg = styled.div.attrs({
     role: "alert",
@@ -217,6 +219,11 @@ export function CharactersPage() {
     const [selectedCharacter, setSelectedCharacter] =
         useState<Character | null>(null);
     const abortRef = useRef<AbortController | null>(null);
+    const isRequestInFlightRef = useRef(false);
+    const requestIdRef = useRef(0);
+    const lastRequestStartedAtRef = useRef(0);
+    const retryTimeoutRef = useRef<number | null>(null);
+    const cooldownUntilRef = useRef(0);
 
     // define o título dinâmico da página baseado no idioma
     useEffect(() => {
@@ -229,9 +236,19 @@ export function CharactersPage() {
             currentFilters: CharacterFilters,
             reset: boolean,
         ) => {
+            if (isRequestInFlightRef.current && !reset) return;
+            if (!reset && retryTimeoutRef.current !== null) return;
+
             if (abortRef.current) abortRef.current.abort();
+            if (retryTimeoutRef.current !== null) {
+                window.clearTimeout(retryTimeoutRef.current);
+                retryTimeoutRef.current = null;
+            }
             const controller = new AbortController();
             abortRef.current = controller;
+            const requestId = requestIdRef.current + 1;
+            requestIdRef.current = requestId;
+            isRequestInFlightRef.current = true;
 
             setLoading(true);
             setError(null);
@@ -239,11 +256,27 @@ export function CharactersPage() {
             // Previne "429 Too Many Requests": A API bloqueia se rolarmos até o final da página muito rápido (20+ requisições em ms)
             // Adicionamos um pequeno delay proposital para as páginas subsequentes (throttle)
             if (pageNum > 1) {
-                await new Promise((resolve) => setTimeout(resolve, 1000));
-                if (controller.signal.aborted) return;
+                const elapsed = Date.now() - lastRequestStartedAtRef.current;
+                const throttleMs = Math.max(
+                    0,
+                    MIN_PAGE_REQUEST_INTERVAL - elapsed,
+                );
+
+                if (throttleMs > 0) {
+                    await new Promise((resolve) =>
+                        setTimeout(resolve, throttleMs),
+                    );
+                }
+                if (controller.signal.aborted) {
+                    if (requestId === requestIdRef.current) {
+                        isRequestInFlightRef.current = false;
+                    }
+                    return;
+                }
             }
 
             try {
+                lastRequestStartedAtRef.current = Date.now();
                 const data = await getCharacters(
                     pageNum,
                     currentFilters,
@@ -269,11 +302,28 @@ export function CharactersPage() {
             } catch (err: unknown) {
                 if (err instanceof DOMException && err.name === "AbortError")
                     return;
+                if (err instanceof RateLimitError) {
+                    const retryAfterMs = err.retryAfterMs;
+                    cooldownUntilRef.current = Date.now() + retryAfterMs;
+                    setError(null);
+                    setHasNext(true);
+
+                    retryTimeoutRef.current = window.setTimeout(() => {
+                        retryTimeoutRef.current = null;
+                        loadPage(pageNum, currentFilters, reset);
+                    }, retryAfterMs);
+                    return;
+                }
                 setError(err instanceof Error ? err.message : t("error"));
                 setHasNext(false); // Evita loop infinito de erros
             } finally {
-                if (!controller.signal.aborted) {
+                if (
+                    !controller.signal.aborted &&
+                    requestId === requestIdRef.current
+                ) {
                     setLoading(false);
+                    isRequestInFlightRef.current = false;
+                    abortRef.current = null;
                 }
             }
         },
@@ -281,14 +331,34 @@ export function CharactersPage() {
     );
 
     useEffect(() => {
+        if (retryTimeoutRef.current !== null) {
+            window.clearTimeout(retryTimeoutRef.current);
+            retryTimeoutRef.current = null;
+        }
+        cooldownUntilRef.current = 0;
+        lastRequestStartedAtRef.current = 0;
         setPage(1);
         setHasNext(true); // Reseta para tentar buscar novamente com novos filtros
         loadPage(1, filters, true);
     }, [filters, loadPage]);
 
+    useEffect(() => {
+        return () => {
+            if (retryTimeoutRef.current !== null) {
+                window.clearTimeout(retryTimeoutRef.current);
+            }
+        };
+    }, []);
+
     const fetchNext = useCallback(() => {
         // evita requisição duplicada se já está carregando
-        if (!loading && hasNext) {
+        if (
+            !isRequestInFlightRef.current &&
+            retryTimeoutRef.current === null &&
+            Date.now() >= cooldownUntilRef.current &&
+            !loading &&
+            hasNext
+        ) {
             loadPage(page + 1, filters, false);
         }
     }, [loading, hasNext, page, filters, loadPage]);

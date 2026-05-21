@@ -203,9 +203,53 @@ export const CharacterCard = React.memo(function CharacterCard({
     const inSquad = isInSquad(character.id);
     const disabled = inSquad || isFull;
     const [failedImage, setFailedImage] = React.useState<string | null>(null);
+    const [shouldLoadImage, setShouldLoadImage] = React.useState(false);
+    const imageWrapperRef = React.useRef<HTMLDivElement | null>(null);
     const imgSrc =
-        failedImage === character.image ? FALLBACK_IMAGE : character.image;
+        shouldLoadImage && failedImage !== character.image
+            ? character.image
+            : FALLBACK_IMAGE;
     const isPreviewable = typeof onPreview === "function";
+
+    React.useEffect(() => {
+        if (typeof IntersectionObserver === "undefined") {
+            setShouldLoadImage(true);
+            return;
+        }
+
+        const node = imageWrapperRef.current;
+        if (!node) return;
+        let timeoutId: number | undefined;
+
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    if (timeoutId) return;
+                    const delay = (character.id % 10) * 120;
+                    timeoutId = window.setTimeout(
+                        () => {
+                            setShouldLoadImage(true);
+                            observer.disconnect();
+                        },
+                        delay,
+                    );
+                    return;
+                }
+
+                if (timeoutId) {
+                    window.clearTimeout(timeoutId);
+                    timeoutId = undefined;
+                }
+            },
+            { rootMargin: "120px" },
+        );
+
+        observer.observe(node);
+        return () => {
+            observer.disconnect();
+            if (timeoutId) window.clearTimeout(timeoutId);
+        };
+    }, [character.id]);
 
     const handlePreview = () => {
         onPreview?.(character);
@@ -302,7 +346,7 @@ export const CharacterCard = React.memo(function CharacterCard({
                     : undefined
             }
         >
-            <ImageWrapper>
+            <ImageWrapper ref={imageWrapperRef}>
                 <Image
                     src={imgSrc}
                     alt={character.name}

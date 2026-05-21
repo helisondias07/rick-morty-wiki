@@ -100,12 +100,12 @@ const RouteFallback = styled.div`
     font-weight: 700;
 `;
 
-const AmbientNotebookLayer = styled.div<{ $repeat?: boolean }>`
-    position: absolute;
+const AmbientNotebookLayer = styled.div`
+    position: fixed;
     inset: 0;
     z-index: 0;
     pointer-events: none;
-    overflow: ${({ $repeat }) => ($repeat ? "visible" : "hidden")};
+    overflow: hidden;
     min-height: 300px;
 
     /* Oculta as notas de texto no mobile para evitar sobreposição com títulos de página */
@@ -125,7 +125,6 @@ function ThemedApp() {
 
     const isLandingPage = location.pathname === "/";
     const isSquadPage = location.pathname === "/squad";
-    const isCharactersPage = location.pathname === "/characters";
 
     React.useEffect(() => {
         // Escuta o evento disparado pela LandingPage ao clicar em Atravessar Portal
@@ -163,13 +162,8 @@ function ThemedApp() {
                 <div className="large-stars" />
             )}
             {mode !== "dark" && !isLandingPage && (
-                <AmbientNotebookLayer
-                    aria-hidden="true"
-                    $repeat={isCharactersPage}
-                >
-                    <NotebookDecorations
-                        blockCount={isCharactersPage ? 60 : 1}
-                    />
+                <AmbientNotebookLayer aria-hidden="true">
+                    <NotebookDecorations blockCount={1} />
                 </AmbientNotebookLayer>
             )}
 
