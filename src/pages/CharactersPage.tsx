@@ -225,6 +225,11 @@ export function CharactersPage() {
     const retryTimeoutRef = useRef<number | null>(null);
     const cooldownUntilRef = useRef(0);
     const rateLimitRetryCountRef = useRef(0);
+    // referência para o retry chamar a versão mais recente de loadPage
+    const loadPageRef = useRef<
+        | ((p: number, f: CharacterFilters, r: boolean) => Promise<void>)
+        | null
+    >(null);
 
     // define o título dinâmico da página baseado no idioma
     useEffect(() => {
@@ -317,7 +322,7 @@ export function CharactersPage() {
 
                     retryTimeoutRef.current = window.setTimeout(() => {
                         retryTimeoutRef.current = null;
-                        loadPage(pageNum, currentFilters, reset);
+                        void loadPageRef.current?.(pageNum, currentFilters, reset);
                     }, retryAfterMs);
                     return;
                 }
@@ -336,6 +341,10 @@ export function CharactersPage() {
         },
         [t],
     );
+
+    useEffect(() => {
+        loadPageRef.current = loadPage;
+    }, [loadPage]);
 
     useEffect(() => {
         if (retryTimeoutRef.current !== null) {

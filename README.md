@@ -1,5 +1,9 @@
 # Rick and Morty Wiki
 
+[![CI](https://github.com/helisondias07/rick-morty-wiki/actions/workflows/ci.yml/badge.svg)](https://github.com/helisondias07/rick-morty-wiki/actions/workflows/ci.yml) ![License: MIT](https://img.shields.io/badge/license-MIT-green)
+
+🔗 **Demo:** [rick-morty-wiki-steel-delta.vercel.app](https://rick-morty-wiki-steel-delta.vercel.app)
+
 <div align="center">
   <img src="./docs/dark-mode.png" alt="Dark Mode" width="48%" />
   <img src="./docs/light-mode.png" alt="Light Mode" width="48%" />
@@ -52,3 +56,16 @@ Autor: Helison Dias
 <a href="https://www.linkedin.com/in/helisondias/" target="_blank">LinkedIn</a><br/>
 <a href="https://github.com/helisondias07" target="_blank">GitHub</a><br/>
 <a href="https://git.fbits.net/AGENCIAOASIS_helison" target="_blank">GitLab</a>
+
+## Testes
+
+```bash
+npm run test:run   # Vitest + Testing Library
+npm run lint
+```
+
+O CI (GitHub Actions) roda lint, testes e build a cada push/PR.
+
+## Licença
+
+MIT © Helison Dias
