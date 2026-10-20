@@ -5,6 +5,12 @@
 🔗 **Demo:** [rick-morty-wiki-steel-delta.vercel.app](https://rick-morty-wiki-steel-delta.vercel.app)
 
 <div align="center">
+  <img src="./docs/demo.gif" alt="Demonstração" width="800" />
+</div>
+
+<!-- Print estático: ./docs/screenshot.png -->
+
+<div align="center">
   <img src="./docs/dark-mode.png" alt="Dark Mode" width="48%" />
   <img src="./docs/light-mode.png" alt="Light Mode" width="48%" />
 </div>
